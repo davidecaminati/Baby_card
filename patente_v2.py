@@ -17,14 +17,12 @@ blank_image_raw = np.zeros((larghezza_foto,larghezza_foto), np.uint8)
 blank_image = cv2.cvtColor(blank_image_raw, cv2.COLOR_GRAY2BGR)
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-f", "--face", required = True,
-	help = "path to where the face cascade resides")
 ap.add_argument("-v", "--video",
 	help = "path to the (optional) video file")
 args = vars(ap.parse_args())
 
 # construct the face detector
-fd = FaceDetector(args["face"])
+fd = FaceDetector("cascades/haarcascade_frontalface_default.xml")
 
 # if a video path was not supplied, grab the reference
 # to the gray
