@@ -86,7 +86,10 @@ sudo ldconfig
 cd ~/.virtualenvs/cv/lib/python2.7/site-packages/
 ln -s /usr/local/lib/python2.7/site-packages/cv2.so cv2.so
 
-### create a folder for reporitories
+
+## copy the repository
+
+### create a folder for reporitory
 mkdir ~/Desktop/patente_bimbi
 
 ### move to the working folder
@@ -94,5 +97,8 @@ cd ~/Desktop/patente_bimbi
 
 ### clone the repositories
 git clone https://github.com/davidecaminati/Baby_card.git .
+
+### launch the program
+python patente.py
 
 
