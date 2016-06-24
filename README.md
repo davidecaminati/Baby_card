@@ -1,63 +1,63 @@
 # Baby_card
 
-## set the environment for Ubuntu 16.04 
+### set the environment for Ubuntu 16.04 
 
-# update the system
+## update the system
 sudo apt-get update
 sudo apt-get upgrade
 
-# install git
+## install git
 sudo apt-get install git
 
-# install developer tools
+## install developer tools
 sudo apt-get install build-essential cmake git pkg-config
 
-# install pre-requisite for OpenCV
+## install pre-requisite for OpenCV
 sudo apt-get install libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev
 sudo apt-get install libgtk2.0-dev
 sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
 sudo apt-get install libatlas-base-dev gfortran
 
-# install pip (Pip Installs Packages)
+## install pip (Pip Installs Packages)
 wget https://bootstrap.pypa.io/get-pip.py
 sudo python get-pip.py
 
-# install virtual environment
+## install virtual environment
 sudo pip install virtualenv virtualenvwrapper
 sudo rm -rf ~/.cache/pip
 
-# update the bash file ~/.bashrc appending this line
+## update the bash file ~/.bashrc appending this line
 export WORKON_HOME=$HOME/.virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
 
-# reload the bashrc using 
+## reload the bashrc using 
 source ~/.bashrc
 
-# create the virtual environment cv
+## create the virtual environment cv
 mkvirtualenv cv
 
-## PLEASE note that you now are in (cv) environment
-# look on your prompt to find (cv) that means you still working into a virtual env
+### PLEASE note that you now are in (cv) environment
+## look on your prompt to find (cv) that means you still working into a virtual env
 
-# install python2.7 on Ubuntu
+## install python2.7 on Ubuntu
 sudo apt-get install python2.7-dev
 
-# install numpy
+## install numpy
 pip install numpy
 
-# download OpenCV
+## download OpenCV
 cd ~
 git clone https://github.com/Itseez/opencv.git
 cd opencv
 git checkout -b 3.1.0
 
-# download OpenCV contrib
+## download OpenCV contrib
 cd ~
 git clone https://github.com/Itseez/opencv_contrib.git
 cd opencv_contrib
 git checkout -b 3.1.0
 
-# setup the build
+## setup the build
 cd ~/opencv
 mkdir build
 cd build
@@ -70,26 +70,26 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 	
 	
 	
-# compile
+## compile
 make -j4
 
-# install
+## install
 sudo make install
 sudo ldconfig
 
 
-# symlink site-packages
+## symlink site-packages
 cd ~/.virtualenvs/cv/lib/python2.7/site-packages/
 ln -s /usr/local/lib/python2.7/site-packages/cv2.so cv2.so
 
 
-# create a folder for reporitories
+## create a folder for reporitories
 mkdir ~/Desktop/patente_bimbi
 
-# move to the working folder
+## move to the working folder
 cd ~/Desktop/patente_bimbi
 
-# clone the repositories
+## clone the repositories
 git clone https://github.com/davidecaminati/Baby_card.git .
 
 
