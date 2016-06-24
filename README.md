@@ -1,4 +1,10 @@
-# Baby_card
+# Baby card 
+### a simple python program for create fake driver licence,
+### use OpenCV for face detect.
+
+##How to use:
+## press [1] for shot a picture from the webcam, then press [q] to quit.
+
 
 ## set the environment for Ubuntu 16.04 
 
@@ -36,7 +42,7 @@ source ~/.bashrc
 ### create the virtual environment cv
 mkvirtualenv cv
 
-#### PLEASE note that you now are in (cv) environment
+### PLEASE note that you now are in (cv) environment
 ### look on your prompt to find (cv) that means you still working into a virtual env
 
 ### install python2.7 on Ubuntu
@@ -68,8 +74,6 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 	-D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
 	-D BUILD_EXAMPLES=ON ..
 	
-	
-	
 ### compile
 make -j4
 
@@ -77,11 +81,9 @@ make -j4
 sudo make install
 sudo ldconfig
 
-
 ### symlink site-packages
 cd ~/.virtualenvs/cv/lib/python2.7/site-packages/
 ln -s /usr/local/lib/python2.7/site-packages/cv2.so cv2.so
-
 
 ### create a folder for reporitories
 mkdir ~/Desktop/patente_bimbi
