@@ -10,8 +10,14 @@ class FaceDetector:
 		# detect faces in the image
 		rects = self.faceCascade.detectMultiScale(image,
 			scaleFactor = scaleFactor, minNeighbors = minNeighbors,
-			minSize = minSize, flags = cv2.cv.CV_HAAR_SCALE_IMAGE)
+			minSize = minSize, flags = cv2.CASCADE_SCALE_IMAGE)
 
 		# return the rectangles representing boundinb
 		# boxes around the faces
 		return rects
+
+
+# note
+# the cv2.cv submodule got removed in opencv3.0, also some constants were changed.
+# please use cv2.CASCADE_SCALE_IMAGE instead
+# (do a help(cv2) to see the updated constants)

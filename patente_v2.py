@@ -32,9 +32,9 @@ image_patente = cv2.imread("patente-fronte.png")
 
 # merge image with text
 font = cv2.FONT_HERSHEY_SIMPLEX # abbastanza buono
-cv2.putText(image_patente,'CAMINATI',(130,40), font, 0.4,(0,0,0),1,16)
-cv2.putText(image_patente,'DAVIDE',(130,55), font, 0.4,(0,0,0),1,16)
-cv2.putText(image_patente,'03/01/77  Forli  (FC)',(130,72), font, 0.3,(0,0,0),1,16)
+cv2.putText(image_patente,'PIPPO',(130,40), font, 0.4,(0,0,0),1,16)
+cv2.putText(image_patente,'PAPERINO',(130,55), font, 0.4,(0,0,0),1,16)
+cv2.putText(image_patente,'08/07/97  Forli  (FC)',(130,72), font, 0.3,(0,0,0),1,16)
 cv2.putText(image_patente,'03/02/1995       MIT-UCO',(130,89), font, 0.3,(0,0,0),1,16)
 cv2.putText(image_patente,'03/02/2025',(130,105), font, 0.4,(0,0,0),1,16)
 cv2.putText(image_patente,'X000000000X',(130,120), font, 0.4,(0,0,0),1,16)
