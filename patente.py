@@ -1,6 +1,6 @@
-# USAGE
-# python cam.py --face cascades/haarcascade_frontalface_default.xml
-# python cam.py --face cascades/haarcascade_frontalface_default.xml --video video/adrian_face.mov
+# how to use
+# hit [1] to fix the image
+# if ok press [q] otherwise press again [1] to repeat
 
 # import the necessary packages
 from pyimagesearch.facedetector import FaceDetector
@@ -9,98 +9,96 @@ import argparse
 import cv2
 import numpy as np
 
-
+#variables
 cx = 0
 cy = 0
 larghezza_foto = 85
 blank_image_raw = np.zeros((larghezza_foto,larghezza_foto), np.uint8)
 blank_image = cv2.cvtColor(blank_image_raw, cv2.COLOR_GRAY2BGR)
-# construct the argument parse and parse the arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-f", "--face", required = True,
-	help = "path to where the face cascade resides")
-ap.add_argument("-v", "--video",
-	help = "path to the (optional) video file")
-args = vars(ap.parse_args())
+proportional_w = 10
+proportional_h = 8
+offset_constant = 2.5
 
 # construct the face detector
-fd = FaceDetector(args["face"])
+fd = FaceDetector("cascades/haarcascade_frontalface_default.xml")
 
-# if a video path was not supplied, grab the reference
-# to the gray
-if not args.get("video", False):
-	camera = cv2.VideoCapture(0)
+# open video capture
+camera = cv2.VideoCapture(0)
 
-# otherwise, load the video
-else:
-	camera = cv2.VideoCapture(args["video"])
+#load demo_image
+image_patente = cv2.imread("patente-fronte.png")
+
+#think on use tag for place text and picture in demo_image
+
+# merge image with text
+font = cv2.FONT_HERSHEY_SIMPLEX # good
+cv2.putText(image_patente,'PIPPO',(130,40), font, 0.4,(0,0,0),1,16)
+cv2.putText(image_patente,'PAPERINO',(130,55), font, 0.4,(0,0,0),1,16)
+cv2.putText(image_patente,'08/07/97  Forli  (FC)',(130,72), font, 0.3,(0,0,0),1,16)
+cv2.putText(image_patente,'03/02/1995       MIT-UCO',(130,89), font, 0.3,(0,0,0),1,16)
+cv2.putText(image_patente,'03/02/2025',(130,105), font, 0.4,(0,0,0),1,16)
+cv2.putText(image_patente,'X000000000X',(130,120), font, 0.4,(0,0,0),1,16)
 
 # keep looping
 while True:
-	# grab the current frame
-	(grabbed, frame) = camera.read()
+	while True:
+		# grab the current frame
+		(grabbed, frame) = camera.read()
 
-	# if we are viewing a video and we did not grab a
-	# frame, then we have reached the end of the video
-	if args.get("video") and not grabbed:
+		# if we are viewing a video and we did not grab a
+		# frame, then we have reached the end of the video
+		if not grabbed:
+			break
+
+		# resize the frame and convert it to grayscale
+		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+		# detect faces in the image and then clone the frame
+		# so that we can draw on it
+		faceRects = fd.detect(gray, scaleFactor = 1.3, minNeighbors = 5,minSize = (100, 100))
+		frameClone = frame.copy()
+		face = []
+		# loop over the face bounding boxes and draw them
+		for (fX, fY, fW, fH) in faceRects:
+			try:
+				#find centroid of the rectangle
+				cx = fX + int(fW/2)
+				cy = fY + int(fH/2)
+				fX -= int(fX/10*offset_constant)
+				fY -= int(fY/10*offset_constant)
+				fW += int(int(fX/10)*offset_constant) * 2
+
+				face = frameClone[fY:fY+int((fW*proportional_w)/proportional_h),fX:fX+fW]
+				#resize
+				face_resized = imutils.resize(face, width = larghezza_foto)
+				blank_image = face_resized
+			except:
+				pass
+		#merge
+		(h, w) = blank_image.shape[:2]
+		image_patente[65:int(65+h), 19:int(19+w)] = blank_image
+		#show
+		cv2.imshow("LIVE", image_patente)
+
+		# if the '1' key is pressed, stop the loop
+		c = cv2.waitKey(1)
+		if '1' == chr(c & 255):
+			cv2.destroyWindow("LIVE")
+			break
+
+	cv2.imshow("SELECTED", image_patente)
+	c = cv2.waitKey(0)
+	cv2.destroyWindow("SELECTED")
+	# if the 'q' key is pressed exit program
+	if 'q' == chr(c & 255):
+		cv2.destroyWindow("SELECTED")
+		cv2.destroyWindow("LIVE")
 		break
 
-	# resize the frame and convert it to grayscale
-	#frame = imutils.resize(frame, width = 300)
-	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-	# detect faces in the image and then clone the frame
-	# so that we can draw on it
-	faceRects = fd.detect(gray, scaleFactor = 1.3, minNeighbors = 5,
-		minSize = (100, 100))
-	frameClone = frame.copy()
-	volto = []
-	# loop over the face bounding boxes and draw them
-	for (fX, fY, fW, fH) in faceRects:
-		try:
-			#find centroid of the rectangle
-
-			constant = 2.5
-			cx = fX + int(fW/2)
-			cy = fY + int(fH/2)
-			fX -= int(fX/10*constant)
-			fY -= int(fY/10*constant)
-			fW += int(int(fX/10)*constant) * 2
-			#fH += int(int(fY/10)*constant) * 2
-
-			#cv2.rectangle(frameClone, (fX, fY), (fX + fW, fY + int((fW*10)/8)), (0, 255, 0), 2)		
-			#cv2.rectangle(frameClone, (fX, fY), (fX + fW, fY + fH), (0, 255, 0), 2)
-			
-			volto = frameClone[fY:fY+int((fW*10)/8),fX:fX+fW]
-			#volto = frameClone[fY:fY+fH,fX:fX+fW]
-			#resize
-			volto_resize = imutils.resize(volto, width = larghezza_foto)
-			blank_image = volto_resize
-			cv2.imshow("Volto", blank_image)
-		except:
-			pass
-	# show our detected faces
-	cv2.imshow("Face", frameClone)
-
-	# if the 'q' key is pressed, stop the loop
-	if cv2.waitKey(1) & 0xFF == ord("q"):
-		break
-# apertura foto
-#image_patente = cv2.imread("patente-fronte.png")
-#cv2.imshow("Original", image_patente)
-#cv2.waitKey(0)
-
-#merge
-image_patente = cv2.imread("patente-fronte.png")
-#faccia = image_patente[10:100, 100:180]
-(h, w) = blank_image.shape[:2]
-#debug
-print h
-print w
-image_patente[65:int(65+h), 19:int(19+w)] = blank_image
+#----NOTE----
 # texting
 #font = cv2.FONT_HERSHEY_PLAIN  # molto sottile
-font = cv2.FONT_HERSHEY_SIMPLEX # abbastanza buono
+#font = cv2.FONT_HERSHEY_SIMPLEX # abbastanza buono
 #font = cv2.FONT_HERSHEY_SIMPLEX   # sottile
 #font = cv2.FONT_HERSHEY_PLAIN   # sottile
 #font = cv2.FONT_HERSHEY_DUPLEX   # doppio segno
@@ -109,14 +107,8 @@ font = cv2.FONT_HERSHEY_SIMPLEX # abbastanza buono
 #font = cv2.FONT_HERSHEY_COMPLEX_SMALL   # sottile
 #font = cv2.FONT_HERSHEY_SCRIPT_COMPLEX    # 
 
-cv2.putText(image_patente,'CAMINATI',(190,40), font, 0.4,(0,0,0),1)
-cv2.putText(image_patente,'DAVIDE',(190,55), font, 0.4,(0,0,0),1)
+#cv2.LINE_AA = 16
 #cv2.putText(image_patente,'OpenCV',(10,50), font, 4,(255,255,255),2,cv2.LINE_AA)
-
-#show
-
-cv2.imshow("Merged", image_patente)
-cv2.waitKey(0)
 
 # cleanup the camera and close any open windows
 camera.release()

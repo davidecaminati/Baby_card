@@ -1,3 +1,6 @@
+# original source code from
+# http://www.pyimagesearch.com
+
 # Import the necessary packages
 import numpy as np
 import cv2
