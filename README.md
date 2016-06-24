@@ -1,9 +1,10 @@
 # Baby card 
-### a simple python program for create fake driver licence,
-### use OpenCV for face detect.
 
-##How to use:
-## press [1] for shot a picture from the webcam, then press [q] to quit.
+ a simple python program for create fake driver licence,
+ use OpenCV for face detect.
+
+## How to use:
+press [1] for shot a picture from the webcam, then press [q] to quit.
 
 
 ## set the environment for Ubuntu 16.04 
